@@ -10,20 +10,26 @@ import play.api.mvc._
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val controllerComponents: ControllerComponents,
-                               loggerFactory: RequestLoggerFactory)
+class HomeController @Inject()(val controllerComponents: ControllerComponents)
   extends BaseController with Implicits {
 
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    implicit val logger: Logger = getLogger(request)
     logger.flow.info {
-      val result = doStuff
+      val result = new IndexOperation().calculate()
       Ok(views.html.index(result))
     }
   }
 
-  private def doStuff(implicit request: RequestHeader): Int = logger.flow.info {
-    1 + 1
+  // Provide a scope for all operations with a request and logger in context...
+  private class IndexOperation(implicit request: RequestHeader, logger: Logger) {
+    def calculate(): Long = logger.flow.info {
+      val result = System.currentTimeMillis() + scala.util.Random.nextInt()
+      if (result % 10 == 0) {
+        throw new IllegalStateException(s"Result $result is modulo 10!")
+      }
+      result
+    }
   }
 
-  private def logger(implicit request: RequestHeader): Logger = loggerFactory.getLogger(request)
 }
