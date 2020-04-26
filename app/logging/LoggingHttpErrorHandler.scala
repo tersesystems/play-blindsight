@@ -14,12 +14,12 @@ class LoggingHttpErrorHandler @Inject()(environment: Environment,
 
   override protected def logServerError(request: RequestHeader, usefulException: UsefulException): Unit = {
     import com.tersesystems.logback.tracing.SpanInfo
-    import HoneycombFlowBehavior.markerFactory
-    import Implicits._
+    import HoneycombFlowBehavior.spanMarkerFactory
+    import HoneycombImplicits$._
 
     val logger = getLogger(request)
     implicit val rootSpan: SpanInfo = request.attrs(Attrs.spanInfo)
-    logger.error(markerFactory(rootSpan),
+    logger.error(spanMarkerFactory(rootSpan),
       s"${rootSpan.name()} exception, duration ${rootSpan.duration()}: {}", usefulException.cause)
   }
 }

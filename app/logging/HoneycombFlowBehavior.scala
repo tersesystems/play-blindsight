@@ -3,7 +3,7 @@ package logging
 import com.tersesystems.blindsight.api.{Markers, Statement, ToArguments}
 import com.tersesystems.blindsight.flow.FlowBehavior
 import com.tersesystems.blindsight.flow.FlowBehavior.Source
-import com.tersesystems.logback.tracing.{SpanInfo, SpanMarkerFactory}
+import com.tersesystems.logback.tracing.{EventMarkerFactory, SpanInfo, SpanMarkerFactory}
 import org.slf4j.event.Level
 
 import scala.collection.mutable
@@ -32,7 +32,7 @@ class HoneycombFlowBehavior[B: ToArguments](implicit spanInfo: SpanInfo)
       (Level.ERROR,
         Statement()
           .withThrowable(throwable)
-          .withMarkers(Markers(markerFactory(span)))
+          .withMarkers(Markers(spanMarkerFactory(span)))
           .withMessage(s"${source.enclosing.value} exception, duration ${span.duration()}"))
     }
   }
@@ -40,7 +40,7 @@ class HoneycombFlowBehavior[B: ToArguments](implicit spanInfo: SpanInfo)
   override def exitStatement(resultValue: B, source: Source): Option[Statement] = Some {
     val span = popCurrentSpan
     Statement()
-      .withMarkers(Markers(markerFactory(span)))
+      .withMarkers(Markers(spanMarkerFactory(span)))
       .withMessage(s"${source.enclosing.value} exit with result {}, start time = ${span.startTime()}, duration ${span.duration()}")
       .withArguments(resultValue)
   }
@@ -50,7 +50,8 @@ class HoneycombFlowBehavior[B: ToArguments](implicit spanInfo: SpanInfo)
 }
 
 object HoneycombFlowBehavior {
-  val markerFactory = new SpanMarkerFactory
+  val spanMarkerFactory = new SpanMarkerFactory
+  val eventMarkerFactory = new EventMarkerFactory
 
   type SpanStack = mutable.Stack[SpanInfo]
 }

@@ -9,13 +9,13 @@ class LoggingFilter @Inject()(implicit ec: ExecutionContext) extends EssentialFi
 
   override def apply(next: EssentialAction): EssentialAction = EssentialAction { request =>
     import logging.HoneycombFlowBehavior._
-    import Implicits._
+    import HoneycombImplicits._
 
     next(request).map { result =>
       // The root span has to be logged _last_, after the child spans.
       val rootSpan = request.attrs(Attrs.spanInfo)
       val logger = getLogger(request)
-      logger.info(markerFactory(rootSpan),
+      logger.info(spanMarkerFactory(rootSpan),
         s"${rootSpan.name()} exit, duration ${rootSpan.duration()}")
       result
     }

@@ -1,12 +1,12 @@
 package logging
 
-import com.tersesystems.blindsight.{Logger, LoggerFactory}
-import com.tersesystems.blindsight.api.{Arguments, LoggerResolver, Markers, ToArguments, ToMarkers}
+import com.tersesystems.blindsight.{Logger, LoggerFactory, LoggerResolver}
+import com.tersesystems.blindsight.api.{Arguments, Markers, ToArguments, ToMarkers}
 import com.tersesystems.blindsight.flow.FlowBehavior
 import com.tersesystems.logback.tracing.SpanInfo
 import play.api.mvc.{RequestHeader, Result}
 
-trait Implicits extends com.tersesystems.blindsight.logstash.Implicits {
+trait HoneycombImplicits extends com.tersesystems.blindsight.logstash.Implicits {
 
   def getLogger(request: RequestHeader): Logger = {
     implicit val loggerResolver: LoggerResolver[RequestHeader] = LoggerResolver { request =>
@@ -32,4 +32,4 @@ trait Implicits extends com.tersesystems.blindsight.logstash.Implicits {
   }
 }
 
-object Implicits extends Implicits
+object HoneycombImplicits extends HoneycombImplicits

@@ -13,7 +13,6 @@ libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
 
 resolvers += Resolver.bintrayRepo("tersesystems", "maven")
-resolvers += Resolver.mavenLocal
 
 libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.1"
 
@@ -23,10 +22,4 @@ libraryDependencies += "com.tersesystems.logback" % "logback-uniqueid-appender" 
 libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-appender" % terseLogback
 //libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-okhttp" % terseLogback
 libraryDependencies += "com.tersesystems.logback" %% "logback-honeycomb-playws" % terseLogback
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "0.1.0-SNAPSHOT"
-
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "com.tersesystems.controllers._"
-
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "com.tersesystems.binders._"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "0.1.0"
