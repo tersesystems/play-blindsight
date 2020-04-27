@@ -16,7 +16,6 @@ resolvers += Resolver.bintrayRepo("tersesystems", "maven")
 
 libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.1"
 
-libraryDependencies += "eu.timepit" %% "refined"                 % "0.9.13"
 libraryDependencies += "com.tersesystems.logback" % "logback-tracing" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-uniqueid-appender" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-appender" % terseLogback
