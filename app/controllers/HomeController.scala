@@ -28,8 +28,8 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents)
     def calculate(): Long = logger.flow.info {
       val result = System.currentTimeMillis() + scala.util.Random.nextInt()
 
-      eventLogger("span-event-1").info("This is a span event")
-      eventLogger("span-event-2").info("This is also a span event")
+      eventLogger.info("This is a span event")
+      eventLogger.info("This is also a span event")
 
       if (result % 10 == 0) {
         throw new IllegalStateException(s"Result $result is modulo 10!")
@@ -38,8 +38,8 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents)
     }
 
     // https://docs.honeycomb.io/working-with-your-data/tracing/send-trace-data/#span-events
-    def eventLogger(name: String)(implicit spanInfo: SpanInfo): Logger = {
-      val eventInfo = EventInfo.builder().setName(name)
+    def eventLogger(implicit spanInfo: SpanInfo): Logger = {
+      val eventInfo = EventInfo.builder().setName(spanInfo.duration().toString)
         .setParentId(spanInfo.spanId())
         .setTraceId(spanInfo.traceId())
         .build()
