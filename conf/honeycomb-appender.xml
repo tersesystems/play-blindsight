@@ -23,23 +23,7 @@
         <batch>false</batch>
         <includeCallerData>false</includeCallerData>
 
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <message/>
-                <loggerName/>
-                <threadName/>
-                <logLevel/>
-                <stackHash/>
-                <mdc/>
-                <logstashMarkers/>
-                <arguments/>
-                <stackTrace>
-                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
-                        <rootCauseFirst>true</rootCauseFirst>
-                    </throwableConverter>
-                </stackTrace>
-            </providers>
-        </encoder>
+        <include resource="json-encoder.xml"/>
     </appender>
 
 </included>
