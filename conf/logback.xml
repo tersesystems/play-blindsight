@@ -1,73 +1,24 @@
-<!-- https://www.playframework.com/documentation/latest/SettingsLogger -->
 <configuration>
+    <include resource="initial.xml"/>
+    <include resource="exceptions.xml"/>
 
-  <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
+    <include resource="console-appender.xml"/>
+    <include resource="jsonfile-appender.xml"/>
+    <include resource="textfile-appender.xml"/>
+    <include resource="honeycomb-appender.xml"/>
 
-  <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook">
-    <delay>1000</delay>
-  </shutdownHook>
+    <logger name="request" level="DEBUG" />
 
-  <!--
-    Must use a shutdown hook here!
-  -->
-  <appender name="HONEYCOMB" class="com.tersesystems.logback.honeycomb.HoneycombAppender">
-    <apiKey>${HONEYCOMB_API_KEY}</apiKey>
-    <dataSet>${HONEYCOMB_DATASET}</dataSet>
-    <sampleRate>1</sampleRate>
-    <queueSize>10</queueSize>
-    <batch>false</batch>
-    <includeCallerData>false</includeCallerData>
+    <root>
+        <appender class="com.tersesystems.logback.uniqueid.UniqueIdComponentAppender">
+            <appender class="com.tersesystems.logback.classic.NanoTimeComponentAppender">
+                <appender-ref ref="CONSOLE"/>
+                <appender-ref ref="TEXTFILE"/>
+                <appender-ref ref="JSONFILE"/>
+                <appender-ref ref="HONEYCOMB"/>
+            </appender>
+        </appender>
+    </root>
 
-    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-      <providers>
-        <message/>
-        <loggerName/>
-        <threadName/>
-        <logLevel/>
-        <stackHash/>
-        <mdc/>
-        <logstashMarkers/>
-        <arguments/>
-        <stackTrace>
-          <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
-            <rootCauseFirst>true</rootCauseFirst>
-          </throwableConverter>
-        </stackTrace>
-      </providers>
-    </encoder>
-  </appender>
-
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>${application.home:-.}/logs/application.log</file>
-    <encoder>
-      <charset>UTF-8</charset>
-      <pattern>
-        %d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{36}) %magenta(%X{akkaSource}) %msg%n
-      </pattern>
-    </encoder>
-  </appender>
-
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <withJansi>true</withJansi>
-    <encoder>
-      <charset>UTF-8</charset>
-      <pattern>
-        %d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{36}) %magenta(%X{akkaSource}) %msg%n
-      </pattern>
-    </encoder>
-  </appender>
-
-  <appender name="ASYNCFILE" class="ch.qos.logback.classic.AsyncAppender">
-    <appender-ref ref="FILE" />
-  </appender>
-
-  <logger name="play" level="INFO" />
-  <logger name="application" level="DEBUG" />
-  <logger name="request" level="DEBUG" />
-
-  <root level="INFO">
-    <appender-ref ref="HONEYCOMB" />
-    <appender-ref ref="STDOUT" />
-  </root>
-
+    <include resource="ending.xml"/>
 </configuration>

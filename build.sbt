@@ -18,7 +18,12 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.1
 
 libraryDependencies += "com.tersesystems.logback" % "logback-tracing" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-uniqueid-appender" % terseLogback
+libraryDependencies += "com.tersesystems.logback" % "logback-typesafe-config" % terseLogback
+libraryDependencies += "com.tersesystems.logback" % "logback-exception-mapping" % terseLogback
+libraryDependencies += "com.tersesystems.logback" % "logback-exception-mapping-providers" % terseLogback
+libraryDependencies += "com.tersesystems.logback" % "logback-budget" % terseLogback
+libraryDependencies += "com.tersesystems.logback" % "logback-turbomarker" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-appender" % terseLogback
-//libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-okhttp" % terseLogback
 libraryDependencies += "com.tersesystems.logback" %% "logback-honeycomb-playws" % terseLogback
+
 libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "0.1.0"
