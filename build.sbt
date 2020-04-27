@@ -7,6 +7,11 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.11"
 
+
+organizationName := "Terse Systems"
+startYear := Some(2020)
+licenses += ("CC0", new URL("https://creativecommons.org/publicdomain/zero/1.0/"))
+
 val terseLogback = "0.16.1"
 
 libraryDependencies += guice
