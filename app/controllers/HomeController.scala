@@ -23,8 +23,9 @@ import play.api.mvc._
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val controllerComponents: ControllerComponents)
-  extends BaseController with HoneycombImplicits {
+class HomeController @Inject() (val controllerComponents: ControllerComponents)
+    extends BaseController
+    with HoneycombImplicits {
 
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     implicit val logger: Logger = getLogger(request)
@@ -51,7 +52,9 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents)
 
     // https://docs.honeycomb.io/working-with-your-data/tracing/send-trace-data/#span-events
     def eventLogger(implicit spanInfo: SpanInfo): Logger = {
-      val eventInfo = EventInfo.builder().setName(spanInfo.duration().toString)
+      val eventInfo = EventInfo
+        .builder()
+        .setName(spanInfo.duration().toString)
         .setParentId(spanInfo.spanId())
         .setTraceId(spanInfo.traceId())
         .build()

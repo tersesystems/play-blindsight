@@ -21,8 +21,7 @@ import org.slf4j.event.Level
 import scala.collection.mutable
 import scala.compat.java8.FunctionConverters._
 
-class HoneycombFlowBehavior[B: ToArguments](implicit spanInfo: SpanInfo)
-    extends FlowBehavior[B] {
+class HoneycombFlowBehavior[B: ToArguments](implicit spanInfo: SpanInfo) extends FlowBehavior[B] {
   import HoneycombFlowBehavior._
 
   // Create a thread local stack of span info.
@@ -38,14 +37,19 @@ class HoneycombFlowBehavior[B: ToArguments](implicit spanInfo: SpanInfo)
     None
   }
 
-  override def throwingStatement(throwable: Throwable, source: Source): Option[(Level, Statement)] = {
+  override def throwingStatement(
+      throwable: Throwable,
+      source: Source
+  ): Option[(Level, Statement)] = {
     val span = popCurrentSpan
     Some {
-      (Level.ERROR,
+      (
+        Level.ERROR,
         Statement()
           .withThrowable(throwable)
           .withMarkers(Markers(spanMarkerFactory(span)))
-          .withMessage(s"${source.enclosing.value} exception, duration ${span.duration()}"))
+          .withMessage(s"${source.enclosing.value} exception, duration ${span.duration()}")
+      )
     }
   }
 
@@ -53,16 +57,17 @@ class HoneycombFlowBehavior[B: ToArguments](implicit spanInfo: SpanInfo)
     val span = popCurrentSpan
     Statement()
       .withMarkers(Markers(spanMarkerFactory(span)))
-      .withMessage(s"${source.enclosing.value} exit with result {}, start time = ${span.startTime()}, duration ${span.duration()}")
+      .withMessage(s"${source.enclosing.value} exit with result {}, start time = ${span
+        .startTime()}, duration ${span.duration()}")
       .withArguments(resultValue)
   }
 
   private def pushCurrentSpan(spanInfo: SpanInfo): Unit = threadLocalStack.get.push(spanInfo)
-  private def popCurrentSpan: SpanInfo = threadLocalStack.get().pop()
+  private def popCurrentSpan: SpanInfo                  = threadLocalStack.get().pop()
 }
 
 object HoneycombFlowBehavior {
-  val spanMarkerFactory = new SpanMarkerFactory
+  val spanMarkerFactory  = new SpanMarkerFactory
   val eventMarkerFactory = new EventMarkerFactory
 
   type SpanStack = mutable.Stack[SpanInfo]

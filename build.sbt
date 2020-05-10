@@ -31,4 +31,4 @@ libraryDependencies += "com.tersesystems.logback" % "logback-turbomarker" % ters
 libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-appender" % terseLogback
 libraryDependencies += "com.tersesystems.logback" %% "logback-honeycomb-playws" % terseLogback
 
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "0.1.0"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "0.1.35"

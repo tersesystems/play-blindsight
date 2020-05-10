@@ -20,9 +20,15 @@ import play.api.inject.guice.{GuiceApplicationLoader, GuiceableModule}
 import play.api.inject.{SimpleModule, bind}
 import play.api.libs.typedmap.{TypedKey, TypedMap}
 import play.api.mvc.request.{DefaultRequestFactory, RemoteConnection, RequestFactory, RequestTarget}
-import play.api.mvc.{CookieHeaderEncoding, FlashCookieBaker, Headers, RequestHeader, SessionCookieBaker}
+import play.api.mvc.{
+  CookieHeaderEncoding,
+  FlashCookieBaker,
+  Headers,
+  RequestHeader,
+  SessionCookieBaker
+}
 
-class SpanInfoApplicationLoader extends GuiceApplicationLoader  {
+class SpanInfoApplicationLoader extends GuiceApplicationLoader {
   override protected def overrides(context: ApplicationLoader.Context): Seq[GuiceableModule] = {
     super.overrides(context) :+ GuiceableModule.guiceable(new SpanInfoModule)
   }
@@ -30,13 +36,20 @@ class SpanInfoApplicationLoader extends GuiceApplicationLoader  {
 
 class SpanInfoModule extends SimpleModule(bind[RequestFactory] to classOf[SpanInfoRequestFactory])
 
-class SpanInfoRequestFactory @Inject()(
-  cookieHeaderEncoding: CookieHeaderEncoding,
-  sessionBaker: SessionCookieBaker,
-  flashBaker: FlashCookieBaker
+class SpanInfoRequestFactory @Inject() (
+    cookieHeaderEncoding: CookieHeaderEncoding,
+    sessionBaker: SessionCookieBaker,
+    flashBaker: FlashCookieBaker
 ) extends DefaultRequestFactory(cookieHeaderEncoding, sessionBaker, flashBaker) {
 
-  override def createRequestHeader(connection: RemoteConnection, method: String, target: RequestTarget, version: String, headers: Headers, attrs: TypedMap): RequestHeader = {
+  override def createRequestHeader(
+      connection: RemoteConnection,
+      method: String,
+      target: RequestTarget,
+      version: String,
+      headers: Headers,
+      attrs: TypedMap
+  ): RequestHeader = {
     val request = super.createRequestHeader(connection, method, target, version, headers, attrs)
     request.addAttr(Attrs.spanInfo, SpanInfoRequestFactory.rootSpan(request))
   }
@@ -46,7 +59,8 @@ object SpanInfoRequestFactory {
 
   private val idgen = new RandomUUIDIdGenerator
   private val builder = {
-    SpanInfo.builder()
+    SpanInfo
+      .builder()
       .setServiceName("play-blindsight")
       .setIdGenerator(() => idgen.generateId())
   }
