@@ -12,13 +12,14 @@
 
 package logging
 
-import com.tersesystems.blindsight.{Logger, LoggerFactory, LoggerResolver}
-import com.tersesystems.blindsight.api.{Arguments, Markers, ToArguments, ToMarkers}
+import com.tersesystems.blindsight._
+import com.tersesystems.blindsight.DSL._
 import com.tersesystems.blindsight.flow.FlowBehavior
 import com.tersesystems.logback.tracing.SpanInfo
+import net.logstash.logback.marker.LogstashMarker
 import play.api.mvc.{RequestHeader, Result}
 
-trait HoneycombImplicits extends com.tersesystems.blindsight.logstash.Implicits {
+trait HoneycombImplicits {
 
   def getLogger(request: RequestHeader): Logger = {
     implicit val loggerResolver: LoggerResolver[RequestHeader] = LoggerResolver { request =>
@@ -27,16 +28,18 @@ trait HoneycombImplicits extends com.tersesystems.blindsight.logstash.Implicits 
     LoggerFactory.getLogger(request).withMarker(request)
   }
 
-  implicit def flowBehavior[B: ToArguments](implicit spanInfo: SpanInfo): FlowBehavior[B] = {
+  implicit def flowBehavior[B: ToArgument](implicit spanInfo: SpanInfo): FlowBehavior[B] = {
     new HoneycombFlowBehavior[B]()
   }
 
-  implicit val resultToArguments: ToArguments[Result] = ToArguments { result =>
-    Arguments("status" -> result.header.status)
+  implicit val logstashMarkerToMarkers: ToMarkers[LogstashMarker] = ToMarkers(Markers(_))
+
+  implicit val resultToArguments: ToArgument[Result] = ToArgument { result =>
+    Argument(bodj("status" -> result.header.status))
   }
 
   implicit val requestToMarker: ToMarkers[RequestHeader] = ToMarkers { request =>
-    Markers(Map("request.path" -> request.path, "request.host" -> request.host))
+    Markers(bodj("request.path" -> request.path, "request.host" -> request.host))
   }
 
   implicit def requestToSpanInfo(implicit request: RequestHeader): SpanInfo = {

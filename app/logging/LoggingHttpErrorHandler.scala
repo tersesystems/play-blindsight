@@ -12,6 +12,7 @@
 
 package logging
 
+import com.tersesystems.blindsight.Markers
 import javax.inject.{Inject, Provider}
 import play.api.http.DefaultHttpErrorHandler
 import play.api.mvc.RequestHeader
@@ -36,7 +37,7 @@ class LoggingHttpErrorHandler @Inject() (
     val logger                      = getLogger(request)
     implicit val rootSpan: SpanInfo = request.attrs(Attrs.spanInfo)
     logger.error(
-      spanMarkerFactory(rootSpan),
+      Markers(spanMarkerFactory(rootSpan)),
       s"${rootSpan.name()} exception, duration ${rootSpan.duration()}: {}",
       usefulException.cause
     )

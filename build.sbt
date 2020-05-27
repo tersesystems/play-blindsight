@@ -7,7 +7,6 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.11"
 
-
 organizationName := "Terse Systems"
 startYear := Some(2020)
 licenses += ("CC0", new URL("https://creativecommons.org/publicdomain/zero/1.0/"))
@@ -31,4 +30,4 @@ libraryDependencies += "com.tersesystems.logback" % "logback-turbomarker" % ters
 libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-appender" % terseLogback
 libraryDependencies += "com.tersesystems.logback" %% "logback-honeycomb-playws" % terseLogback
 
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "0.1.35"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "1.0.0"

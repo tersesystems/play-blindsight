@@ -12,7 +12,7 @@
 
 package controllers
 
-import com.tersesystems.blindsight.Logger
+import com.tersesystems.blindsight.{Logger, Markers}
 import com.tersesystems.logback.tracing.{EventInfo, SpanInfo}
 import javax.inject._
 import logging._

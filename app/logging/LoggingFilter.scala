@@ -12,7 +12,7 @@
 
 package logging
 
-import com.tersesystems.blindsight.api.Markers
+import com.tersesystems.blindsight._
 import javax.inject.Inject
 import play.api.mvc.{EssentialAction, EssentialFilter}
 
@@ -32,7 +32,7 @@ class LoggingFilter @Inject() (implicit ec: ExecutionContext) extends EssentialF
         val rootSpan = request.attrs(Attrs.spanInfo)
         val logger   = getLogger(request)
         logger.info(
-          spanMarkerFactory(rootSpan),
+          Markers(spanMarkerFactory(rootSpan)),
           s"${rootSpan.name()} exit, duration ${rootSpan.duration()}"
         )
         result
