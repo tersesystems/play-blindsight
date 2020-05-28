@@ -41,6 +41,7 @@ class HomeController @Inject() (val controllerComponents: ControllerComponents)
     def calculate(): Long = logger.flow.info {
       val result = System.currentTimeMillis() + scala.util.Random.nextInt()
 
+      val eventLogger = logger.withMarker(honeycombEventMarker)
       eventLogger.info("This is a span event")
       eventLogger.info("This is also a span event")
 
@@ -49,16 +50,6 @@ class HomeController @Inject() (val controllerComponents: ControllerComponents)
       }
       result
     }
-
-    // https://docs.honeycomb.io/working-with-your-data/tracing/send-trace-data/#span-events
-    def eventLogger(implicit spanInfo: SpanInfo): Logger = {
-      val eventInfo = EventInfo
-        .builder()
-        .setName(spanInfo.duration().toString)
-        .setParentId(spanInfo.spanId())
-        .setTraceId(spanInfo.traceId())
-        .build()
-      logger.withMarker(HoneycombFlowBehavior.eventMarkerFactory(eventInfo))
-    }
   }
+
 }

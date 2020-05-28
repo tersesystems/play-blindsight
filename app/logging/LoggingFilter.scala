@@ -32,7 +32,7 @@ class LoggingFilter @Inject() (implicit ec: ExecutionContext) extends EssentialF
         val rootSpan = request.attrs(Attrs.spanInfo)
         val logger   = getLogger(request)
         logger.info(
-          Markers(spanMarkerFactory(rootSpan)),
+          spanMarkerFactory(rootSpan),
           s"${rootSpan.name()} exit, duration ${rootSpan.duration()}"
         )
         result
