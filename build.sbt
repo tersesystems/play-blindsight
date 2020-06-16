@@ -20,6 +20,8 @@ resolvers += Resolver.bintrayRepo("tersesystems", "maven")
 
 libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.1"
 
+libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.11.0"
+
 libraryDependencies += "com.tersesystems.logback" % "logback-tracing" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-uniqueid-appender" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-typesafe-config" % terseLogback
@@ -30,4 +32,4 @@ libraryDependencies += "com.tersesystems.logback" % "logback-turbomarker" % ters
 libraryDependencies += "com.tersesystems.logback" % "logback-honeycomb-appender" % terseLogback
 libraryDependencies += "com.tersesystems.logback" %% "logback-honeycomb-playws" % terseLogback
 
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "1.0.1"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "1.2.1"
