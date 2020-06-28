@@ -12,8 +12,8 @@
 
 package controllers
 
-import com.tersesystems.blindsight.{Logger, Markers}
-import com.tersesystems.logback.tracing.{EventInfo, SpanInfo}
+import com.tersesystems.blindsight._
+import com.tersesystems.blindsight.DSL._
 import javax.inject._
 import logging._
 import play.api.mvc._
@@ -27,8 +27,16 @@ class HomeController @Inject() (val controllerComponents: ControllerComponents)
     extends BaseController
     with HoneycombImplicits {
 
+  private val tracerMarker = org.slf4j.MarkerFactory.getMarker("TRACER")
+  private def traceCondition(implicit request: Request[AnyContent]): Condition = request.queryString.contains("trace")
+
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     implicit val logger: Logger = getLogger(request)
+
+    val traceLogger = logger.onCondition(traceCondition).withMarker(tracerMarker)
+    traceLogger.trace { log =>
+      log(st"The query string contains ${bobj("queryString" -> request.queryString)}")
+    }
 
     logger.flow.info {
       val result = new IndexOperation().calculate()
