@@ -12,7 +12,7 @@
 
 package controllers
 
-import com.tersesystems.blindsight.{Condition, Logger}
+import com.tersesystems.blindsight._
 import javax.inject._
 import logging._
 import play.api.mvc._
@@ -34,7 +34,8 @@ class HomeController @Inject() (val controllerComponents: ControllerComponents)
 
     val traceLogger = logger.onCondition(traceCondition).withMarker(tracerMarker)
     traceLogger.trace { log =>
-      log("trace logging only happens when request contains the trace query parameter")
+      import DSL._
+      log(st"The query string contains ${bobj("queryString" -> request.queryString)}")
     }
 
     logger.flow.info {
