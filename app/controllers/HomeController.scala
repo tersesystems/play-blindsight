@@ -13,6 +13,7 @@
 package controllers
 
 import com.tersesystems.blindsight._
+import com.tersesystems.blindsight.DSL._
 import javax.inject._
 import logging._
 import play.api.mvc._
@@ -34,7 +35,6 @@ class HomeController @Inject() (val controllerComponents: ControllerComponents)
 
     val traceLogger = logger.onCondition(traceCondition).withMarker(tracerMarker)
     traceLogger.trace { log =>
-      import DSL._
       log(st"The query string contains ${bobj("queryString" -> request.queryString)}")
     }
 
