@@ -19,6 +19,12 @@
     <include resource="textfile-appender.xml"/>
     <include resource="honeycomb-appender.xml"/>
 
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>TRACER_FILTER</Name>
+        <Marker>TRACER</Marker>
+        <OnMatch>ACCEPT</OnMatch>
+    </turboFilter>
+
     <logger name="request" level="DEBUG" />
 
     <root>

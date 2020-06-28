@@ -22,6 +22,9 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.1
 
 libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.11.0"
 
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-scala
+libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.11.0"
+
 libraryDependencies += "com.tersesystems.logback" % "logback-tracing" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-uniqueid-appender" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-typesafe-config" % terseLogback
