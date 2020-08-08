@@ -33,7 +33,7 @@ class HomeController @Inject() (val controllerComponents: ControllerComponents)
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     implicit val logger: Logger = getLogger(request)
 
-    val traceLogger = logger.onCondition(traceCondition).withMarker(tracerMarker)
+    val traceLogger = logger.withCondition(traceCondition).withMarker(tracerMarker)
     traceLogger.trace { log =>
       log(st"The query string contains ${bobj("queryString" -> request.queryString)}")
     }

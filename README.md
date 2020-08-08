@@ -31,7 +31,7 @@ These correspond to the honeycomb appender in `conf/logback.xml`
 
 Assuming you have sbt and java installed:
 
-```scala
+```
 sbt run
 ```
 
