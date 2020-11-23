@@ -1,0 +1,36 @@
+
+<!--
+  ~     SPDX-License-Identifier: CC0-1.0
+  ~
+  ~     Copyright 2020 Will Sargent.
+  ~
+  ~     Licensed under the CC0 Public Domain Dedication;
+  ~     You may obtain a copy of the License at
+  ~
+  ~         http://creativecommons.org/publicdomain/zero/1.0/
+  ~
+  -->
+
+<included>
+
+    <appender name="BLACKLITE" class="com.tersesystems.blacklite.logback.BlackliteAppender">
+        <url>${blacklite.url}</url>
+
+        <archiver class="com.tersesystems.blacklite.archive.DefaultArchiver">
+            <file>${blacklite.archive.file}</file>
+            <archiveAfterRows>${blacklite.archive.after}</archiveAfterRows>
+
+            <rollingStrategy class="com.tersesystems.blacklite.logback.TimeBasedRollingStrategy">
+                <fileNamePattern>${blacklite.archive.pattern}</fileNamePattern>
+                <maxHistory>${blacklite.archive.history}</maxHistory>
+            </rollingStrategy>
+
+            <triggeringPolicy class="com.tersesystems.blacklite.archive.ArchiveRowsTriggeringPolicy">
+                <maximumNumRows>${blacklite.archive.max}</maximumNumRows>
+            </triggeringPolicy>
+        </archiver>
+
+        <include resource="json-encoder.xml"/>
+    </appender>
+
+</included>
