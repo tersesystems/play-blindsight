@@ -17,11 +17,14 @@ libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
 
 resolvers += Resolver.bintrayRepo("tersesystems", "maven")
+resolvers += Resolver.mavenLocal
 
 libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.1"
 
 // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-scala
 libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.11.0"
+
+libraryDependencies += "com.tersesystems.blacklite" % "blacklite-logback" % "0.1.1"
 
 libraryDependencies += "com.tersesystems.logback" % "logback-tracing" % terseLogback
 libraryDependencies += "com.tersesystems.logback" % "logback-uniqueid-appender" % terseLogback

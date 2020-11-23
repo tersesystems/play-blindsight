@@ -9,31 +9,80 @@
   ~         http://creativecommons.org/publicdomain/zero/1.0/
   ~
   -->
-
 <configuration>
     <include resource="initial.xml"/>
     <include resource="exceptions.xml"/>
 
-    <include resource="console-appender.xml"/>
-    <include resource="jsonfile-appender.xml"/>
-    <include resource="textfile-appender.xml"/>
-    <include resource="honeycomb-appender.xml"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${console.threshold}</level>
+        </filter>
 
-    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
-        <Name>TRACER_FILTER</Name>
-        <Marker>TRACER</Marker>
-        <OnMatch>ACCEPT</OnMatch>
-    </turboFilter>
+        <include resource="short-encoder.xml"/>
 
-    <logger name="request" level="DEBUG" />
+        <withJansi>${console.withJansi}</withJansi>
+    </appender>
 
-    <root>
+    <appender name="BLACKLITE" class="com.tersesystems.blacklite.logback.BlackliteAppender">
+        <url>${blacklite.url}</url>
+
+        <archiver class="com.tersesystems.blacklite.archive.DefaultArchiver">
+            <file>${blacklite.archive.file}</file>
+            <archiveAfterRows>${blacklite.archive.after}</archiveAfterRows>
+
+            <rollingStrategy class="com.tersesystems.blacklite.logback.TimeBasedRollingStrategy">
+                <fileNamePattern>${blacklite.archive.pattern}</fileNamePattern>
+                <maxHistory>${blacklite.archive.history}</maxHistory>
+            </rollingStrategy>
+
+            <triggeringPolicy class="com.tersesystems.blacklite.archive.ArchiveRowsTriggeringPolicy">
+                <maximumNumRows>${blacklite.archive.max}</maximumNumRows>
+            </triggeringPolicy>
+        </archiver>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "id": "%uniqueId",
+                        "relative_ns": "#asLong{%nanoTime}",
+                        "tse_ms": "#asLong{%tse}",
+                        "start_ms": "#asLong{%startTime}"
+                        }
+                    </pattern>
+                </pattern>
+                <timestamp>
+                    <!-- UTC is the best server consistent timezone -->
+                    <timeZone>${encoders.json.timeZone}</timeZone>
+                    <pattern>${encoders.json.timestampPattern}</pattern>
+                </timestamp>
+                <version/>
+                <message/>
+                <loggerName/>
+                <threadName/>
+                <logLevel/>
+                <logLevelValue/><!-- numeric value is useful for filtering >= -->
+                <stackHash/>
+                <mdc/>
+                <logstashMarkers/>
+                <arguments/>
+                <stackTrace>
+                    <!--
+                      https://github.com/logstash/logstash-logback-encoder#customizing-stack-traces
+                    -->
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                    </throwableConverter>
+                </stackTrace>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="TRACE">
         <appender class="com.tersesystems.logback.uniqueid.UniqueIdComponentAppender">
             <appender class="com.tersesystems.logback.classic.NanoTimeComponentAppender">
                 <appender-ref ref="CONSOLE"/>
-                <appender-ref ref="TEXTFILE"/>
-                <appender-ref ref="JSONFILE"/>
-                <appender-ref ref="HONEYCOMB"/>
+                <appender-ref ref="BLACKLITE"/>
             </appender>
         </appender>
     </root>
