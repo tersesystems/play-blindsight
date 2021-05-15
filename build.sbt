@@ -5,7 +5,7 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.12.11"
+scalaVersion := "2.12.12"
 
 organizationName := "Terse Systems"
 startYear := Some(2020)
@@ -34,5 +34,5 @@ libraryDependencies += "com.tersesystems.logback" %% "logback-honeycomb-playws" 
 
 libraryDependencies += "com.tersesystems.blacklite" % "blacklite-logback" % "1.0.1"
 
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "1.4.1"
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-jsonld" % "1.4.1"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "1.5.0"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-jsonld" % "1.5.0"
