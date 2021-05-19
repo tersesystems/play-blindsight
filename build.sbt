@@ -34,5 +34,5 @@ libraryDependencies += "com.tersesystems.logback" %% "logback-honeycomb-playws" 
 
 libraryDependencies += "com.tersesystems.blacklite" % "blacklite-logback" % "1.0.1"
 
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "1.5.0"
-libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-jsonld" % "1.5.0"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-logstash" % "1.5.1"
+libraryDependencies += "com.tersesystems.blindsight" %% "blindsight-jsonld" % "1.5.1"
