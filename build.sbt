@@ -11,7 +11,7 @@ organizationName := "Terse Systems"
 startYear := Some(2020)
 licenses += ("CC0", new URL("https://creativecommons.org/publicdomain/zero/1.0/"))
 
-val terseLogback = "0.16.2"
+val terseLogback = "1.0.0"
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
